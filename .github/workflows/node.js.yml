@@ -35,6 +35,9 @@ jobs:
       - name: Test frontend
         working-directory: ./frontend
         run: npm test
+
+      - name: Create frontend Build Directory
+        run: mkdir -p ./frontend/build/
       
       - name: Upload Frontend Artifacts
         uses: actions/upload-artifact@v2
