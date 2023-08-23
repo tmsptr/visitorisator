@@ -39,10 +39,12 @@ app.get("/api/visitorCount", async (req, res) => {
   res.send({ count: value });
 });
 
-app.listen(3001, () => console.log("Active"));
+const server = app.listen(3001, () => console.log("Active"));
 
 process.on("SIGINT", () => {
   redisClient.quit(() => {
     process.exit(0);
   });
 });
+
+module.exports = server;
