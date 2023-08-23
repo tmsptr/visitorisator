@@ -19,10 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: ./frontend/npm i
-      - run: ./frontend/npm run build
-      - run: ./frontend/npm test
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci --package-lock-only
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+      - name: Test
+        working-directory: ./frontend
+        run: npm test
