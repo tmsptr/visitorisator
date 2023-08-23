@@ -31,3 +31,8 @@ jobs:
       - name: Test
         working-directory: ./frontend
         run: npm test
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: visitorisator-frontend-build
+          path: ./frontend/build/
