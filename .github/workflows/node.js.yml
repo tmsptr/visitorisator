@@ -18,21 +18,34 @@ jobs:
   
     steps:
       - uses: actions/checkout@v3
+      
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
+      
+      - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm i
-      - name: Build
+      
+      - name: Build frontend
         working-directory: ./frontend
         run: npm run build
-      - name: Test
+      
+      - name: Test frontend
         working-directory: ./frontend
         run: npm test
-      - name: Upload Artifacts
+      
+      - name: Upload Frontend Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: visitorisator-frontend-build
           path: ./frontend/build/
+      
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm i
+  
+      - name: Test backend
+        working-directory: ./backend
+        run: npm test
