@@ -1,0 +1,13 @@
+* {
+  margin: 25px;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.centerView {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
