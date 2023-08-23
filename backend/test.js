@@ -6,11 +6,13 @@ const app = require("./app.js");
 chai.use(chaiHttp);
 
 describe("API Routes", () => {
-  // after((done) => {
-  //   app.close(() => {
-  //     done();
-  //   });
-  // });
+  after((done) => {
+    app
+      .close(() => {
+        done();
+      })
+      .catch(done);
+  });
 
   describe("GET /", () => {
     it("should update the counter", (done) => {
@@ -21,7 +23,8 @@ describe("API Routes", () => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("count");
           done();
-        });
+        })
+        .catch(done);
     });
 
     it("should handle errors when updating the counter", (done) => {
@@ -32,7 +35,8 @@ describe("API Routes", () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           done();
-        });
+        })
+        .catch(done);
     });
   });
 
@@ -45,7 +49,8 @@ describe("API Routes", () => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("count");
           done();
-        });
+        })
+        .catch(done);
     });
   });
 });
