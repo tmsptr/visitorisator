@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./bootstrap.css";
 
 function App() {
@@ -6,32 +7,34 @@ function App() {
   const [isResultShowing, setIsResultShowing] = useState(false);
   const baseUrl = "http://localhost:3001/";
 
-  const updateCounter = () => {
-    fetch(baseUrl);
+  const updateCounter = async () => {
+    try {
+      await axios.get(baseUrl);
+    } catch (error) {
+      console.error("Error updating counter:", error);
+    }
   };
 
-  if (sessionStorage.getItem("visit") === null) {
-    updateCounter();
-  }
-
-  sessionStorage.setItem("visit", "x");
+  useEffect(() => {
+    if (!sessionStorage.getItem("visit")) {
+      updateCounter();
+    }
+    sessionStorage.setItem("visit", "x");
+  }, []);
 
   const handleShowButton = async () => {
-    const response = await fetch(`${baseUrl}api/visitorCount`);
-    const responseData = await response.json();
+    const response = await axios.get(`${baseUrl}api/visitorCount`);
     setIsResultShowing(!isResultShowing);
-    setData(responseData.count);
+    setData(response.data.count);
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h3>How many visitors up to date?</h3>
-        {!isResultShowing ? (
-          <button onClick={handleShowButton}>Find out!</button>
-        ) : (
-          <button onClick={handleShowButton}>Don`t show</button>
-        )}
+        <button onClick={handleShowButton}>
+          {!isResultShowing ? "Find out!" : "Don`t show"}
+        </button>
         <div className="centerView">
           {data && isResultShowing && <h4>{data}</h4>}
         </div>
