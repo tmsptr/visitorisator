@@ -6,11 +6,11 @@ const app = require("./app.js");
 chai.use(chaiHttp);
 
 describe("API Routes", () => {
-  after((done) => {
-    app.close(() => {
-      done();
-    });
-  });
+  // after((done) => {
+  //   app.close(() => {
+  //     done();
+  //   });
+  // });
 
   describe("GET /", () => {
     it("should update the counter", (done) => {
