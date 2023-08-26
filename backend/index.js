@@ -3,7 +3,7 @@ const redis = require("redis");
 const redisClient = redis.createClient({
   port: 6379,
   host: "redis",
-  enable_offline_queue: false,
+  // enable_offline_queue: false,
 });
 const cors = require("cors");
 const corsOptions = {
@@ -39,7 +39,7 @@ app.get("/api/visitorCount", async (req, res) => {
   res.send({ count: value });
 });
 
-const server = app.listen(3001, () => console.log("Active"));
+const server = app.listen(3000, () => console.log("Active"));
 
 process.on("SIGINT", () => {
   redisClient.quit(() => {
