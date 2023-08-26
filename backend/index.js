@@ -2,7 +2,7 @@ const express = require("express");
 const redis = require("redis");
 const redisClient = redis.createClient({
   port: 6379,
-  host: "localhost",
+  host: "redis",
   enable_offline_queue: false,
 });
 const cors = require("cors");

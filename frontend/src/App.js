@@ -5,7 +5,7 @@ import "./bootstrap.css";
 function App() {
   const [data, setData] = useState(null);
   const [isResultShowing, setIsResultShowing] = useState(false);
-  const baseUrl = "http://localhost:3001/";
+  const baseUrl = "http://backend:3000/";
 
   const updateCounter = async () => {
     try {
