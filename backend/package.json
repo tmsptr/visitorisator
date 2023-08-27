@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon index.js",
     "test": "mocha --exit"
   },
   "author": "atomsP",
@@ -14,6 +14,7 @@
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
     "redis": "^4.6.7",
+    "retry": "^0.13.1",
     "supertest": "^6.3.3"
   },
   "devDependencies": {

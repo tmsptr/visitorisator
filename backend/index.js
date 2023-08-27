@@ -1,9 +1,12 @@
 const express = require("express");
 const redis = require("redis");
 const redisClient = redis.createClient({
-  port: 6379,
-  host: "redis",
-  // enable_offline_queue: false,
+  legacyMode: true,
+  socket: {
+    port: 6379,
+    host: "redis",
+    enable_offline_queue: false,
+  },
 });
 const cors = require("cors");
 const corsOptions = {
@@ -16,6 +19,10 @@ app.use(cors(corsOptions));
 
 redisClient.connect();
 
+redisClient.on("connect", () => {
+  console.log("Connected to Redis");
+});
+
 app.get("/", async (req, res) => {
   if (req.url === "/favicon.ico") {
     res.end();
@@ -27,6 +34,7 @@ app.get("/", async (req, res) => {
       .incr("count")
       .exec();
     const newValue = response[1];
+    console.log("NEW VAL", newValue);
     res.send({ count: newValue });
   } catch (error) {
     console.error("Error adding to counter:", error);
@@ -35,11 +43,33 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/api/visitorCount", async (req, res) => {
-  const value = await redisClient.get("count");
+  const value = await getValueFromRedis("count");
+  console.log(value);
   res.send({ count: value });
 });
 
-const server = app.listen(3000, () => console.log("Active"));
+function getValueFromRedis(key) {
+  return new Promise((resolve, reject) => {
+    redisClient.get(key, (err, reply) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(reply);
+      }
+    });
+  });
+}
+
+// (async () => {
+//   try {
+//     const myValue = await getValueFromRedis("count");
+//     console.log("Retrieved value:", myValue);
+//   } catch (error) {
+//     console.error("Error retrieving value:", error);
+//   }
+// })();
+
+const server = app.listen(3001, () => console.log("Active"));
 
 process.on("SIGINT", () => {
   redisClient.quit(() => {

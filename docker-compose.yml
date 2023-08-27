@@ -1,14 +1,17 @@
 version: "3"
 services:
+  redis:
+    image: redis:latest
+
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     image: visitorisator-frontend-image
-    ports:
-      - "80:80"
     depends_on:
       - backend
+    ports:
+      - "80:80"
 
   backend:
     build:
@@ -16,12 +19,10 @@ services:
       dockerfile: Dockerfile
     image: visitorisator-backend-image
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - redis
-
-  redis:
-    image: redis:latest
-    command: ["redis-server", "--bind", "redis", "--port", "6379"]
-    ports:
-      - "6379:6379"
+    environment:
+      redis_server_addr: redis
+    volumes:
+      - ./backend:/app

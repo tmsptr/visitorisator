@@ -5,11 +5,12 @@ import "./bootstrap.css";
 function App() {
   const [data, setData] = useState(null);
   const [isResultShowing, setIsResultShowing] = useState(false);
-  const baseUrl = "http://backend:3000/";
+  const baseUrl = "http://localhost:3001/";
 
   const updateCounter = async () => {
     try {
-      await axios.get(baseUrl);
+      const response = await axios.get(baseUrl);
+      console.log("UPDATE RES", response);
     } catch (error) {
       console.error("Error updating counter:", error);
     }
@@ -24,6 +25,8 @@ function App() {
 
   const handleShowButton = async () => {
     const response = await axios.get(`${baseUrl}api/visitorCount`);
+    console.log("RESPONSE BELOW", response);
+    console.log(response.data.count);
     setIsResultShowing(!isResultShowing);
     setData(response.data.count);
   };
