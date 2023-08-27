@@ -9,13 +9,13 @@ function App() {
 
   const updateCounter = async () => {
     try {
-      const response = await axios.get(baseUrl);
+      await axios.get(baseUrl);
     } catch (error) {
       console.error("Error updating counter:", error);
     }
   };
 
-  const updateCounterCallback = useCallback(updateCounter, []);
+  const updateCounterCallback = useCallback(updateCounter, [baseUrl]);
 
   useEffect(() => {
     if (!sessionStorage.getItem("visit")) {
