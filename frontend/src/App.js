@@ -43,7 +43,7 @@ function App() {
           data === 0 ? (
           <p>No data</p>
           ) : (
-          <h1>{data}</h1>
+          <p className="big-number">{data}</p>
           )
           ) : null}
         </div>
