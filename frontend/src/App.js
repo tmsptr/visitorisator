@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback} from "react";
 import axios from "axios";
 import "./bootstrap.css";
 
@@ -15,12 +15,14 @@ function App() {
     }
   };
 
+  const updateCounterCallback = useCallback(updateCounter, []);
+
   useEffect(() => {
     if (!sessionStorage.getItem("visit")) {
-      updateCounter();
+      updateCounterCallback();
     }
     sessionStorage.setItem("visit", "x");
-  }, [updateCounter]);
+  }, [updateCounterCallback]);
 
   const handleShowButton = async () => {
     const response = await axios.get(`${baseUrl}api/visitorCount`);
