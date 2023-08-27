@@ -5,7 +5,7 @@ import "./bootstrap.css";
 function App() {
   const [data, setData] = useState(null);
   const [isResultShowing, setIsResultShowing] = useState(false);
-  const baseUrl = "http://localhost:3001/";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const updateCounter = async () => {
     try {

@@ -28,14 +28,13 @@ app.get("/", async (req, res) => {
     res.end();
   }
   try {
-    const response = await redisClient
+    await redisClient
       .multi()
       .get("count")
       .incr("count")
       .exec();
-    const newValue = response[1];
-    console.log("NEW VAL", newValue);
-    res.send({ count: newValue });
+  const value = await getValueFromRedis("count");
+  res.send({ count: value });
   } catch (error) {
     console.error("Error adding to counter:", error);
     res.status(500).send("Error adding to counter");
@@ -44,7 +43,6 @@ app.get("/", async (req, res) => {
 
 app.get("/api/visitorCount", async (req, res) => {
   const value = await getValueFromRedis("count");
-  console.log(value);
   res.send({ count: value });
 });
 
@@ -59,15 +57,6 @@ function getValueFromRedis(key) {
     });
   });
 }
-
-// (async () => {
-//   try {
-//     const myValue = await getValueFromRedis("count");
-//     console.log("Retrieved value:", myValue);
-//   } catch (error) {
-//     console.error("Error retrieving value:", error);
-//   }
-// })();
 
 const server = app.listen(3001, () => console.log("Active"));
 
