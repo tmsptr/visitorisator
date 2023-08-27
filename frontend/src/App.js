@@ -7,20 +7,20 @@ function App() {
   const [isResultShowing, setIsResultShowing] = useState(false);
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    const updateCounter = async () => {
-      try {
-        const response = await axios.get(baseUrl);
-      } catch (error) {
-        console.error("Error updating counter:", error);
-      }
-    };
+  const updateCounter = async () => {
+    try {
+      const response = await axios.get(baseUrl);
+    } catch (error) {
+      console.error("Error updating counter:", error);
+    }
+  };
 
+  useEffect(() => {
     if (!sessionStorage.getItem("visit")) {
       updateCounter();
     }
     sessionStorage.setItem("visit", "x");
-  }, []);
+  }, [updateCounter]);
 
   const handleShowButton = async () => {
     const response = await axios.get(`${baseUrl}api/visitorCount`);
