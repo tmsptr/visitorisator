@@ -12,6 +12,7 @@ function App() {
       await axios.get(baseUrl);
     } catch (error) {
       console.error("Error updating counter:", error);
+      alert("An error occurred while updating the counter. Please try again later.");
     }
   };
 
@@ -26,8 +27,6 @@ function App() {
 
   const handleShowButton = async () => {
     const response = await axios.get(`${baseUrl}api/visitorCount`);
-    console.log("RESPONSE BELOW", response);
-    console.log(response.data.count);
     setIsResultShowing(!isResultShowing);
     setData(response.data.count);
   };
@@ -40,7 +39,13 @@ function App() {
           {!isResultShowing ? "Find out!" : "Don`t show"}
         </button>
         <div className="centerView">
-          {data && isResultShowing && <h4>{data}</h4>}
+          {data !== null && isResultShowing ? (
+          data === 0 ? (
+          <p>No data</p>
+          ) : (
+          <h1>{data}</h1>
+          )
+          ) : null}
         </div>
       </header>
     </div>
